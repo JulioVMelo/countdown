@@ -1,27 +1,51 @@
-function makeTimer() {
+function updateTimer(deadline){
+  var time = deadline - new Date();
+  return {
+    'days': Math.floor( time/(1000*60*60*24) ),
+    'hours': Math.floor( (time/(1000*60*60)) % 24 ),
+    'minutes': Math.floor( (time/1000/60) % 60 ),
+    'seconds': Math.floor( (time/1000) % 60 ),
+    'total' : time
+  };
+}
 
-			var endTime = new Date("April 26, 2013 17:00:00 PDT");			
-			var endTime = (Date.parse(endTime)) / 1000;
 
-			var now = new Date();
-			var now = (Date.parse(now) / 1000);
+function animateClock(span){
+  span.className = "turn";
+  setTimeout(function(){
+    span.className = "";
+  },700);
+}
 
-			var timeLeft = endTime - now;
+function startTimer(id, deadline){
+  var timerInterval = setInterval(function(){
+    var clock = document.getElementById(id);
+    var timer = updateTimer(deadline);
 
-			var days = Math.floor(timeLeft / 86400); 
-			var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
-			var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600 )) / 60);
-			var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
+    clock.innerHTML = '<span>' + timer.days + '</span>'
+                    + '<span>' + timer.hours + '</span>'
+                    + '<span>' + timer.minutes + '</span>'
+                    + '<span>' + timer.seconds + '</span>';
 
-			if (hours < "10") { hours = "0" + hours; }
-			if (minutes < "10") { minutes = "0" + minutes; }
-			if (seconds < "10") { seconds = "0" + seconds; }
+    //animations
+    var spans = clock.getElementsByTagName("span");
+    animateClock(spans[3]);
+    if(timer.seconds == 59) animateClock(spans[2]);
+    if(timer.minutes == 59 && timer.seconds == 59) animateClock(spans[1]);
+    if(timer.hours == 23 && timer.minutes == 59 && timer.seconds == 59) animateClock(spans[0]);
 
-			$("#days").html(days + "<span>Days</span>");
-			$("#hours").html(hours + "<span>Hours</span>");
-			$("#minutes").html(minutes + "<span>Minutes</span>");
-			$("#seconds").html(seconds + "<span>Seconds</span>");		
+    //check for end of timer
+    if(timer.total < 1){
+      clearInterval(timerInterval);
+      clock.innerHTML = '<span>0</span><span>0</span><span>0</span><span>0</span>';
+    }
 
-	}
 
-	setInterval(function() { makeTimer(); }, 1000);
+  }, 1000);
+}
+
+
+window.onload = function(){
+  var deadline = new Date("October 25, 2018 17:15:00");
+  startTimer("clock", deadline);
+};
