@@ -46,6 +46,6 @@ function startTimer(id, deadline){
 
 
 window.onload = function(){
-  var deadline = new Date("October 25, 2018 17:15:00");
+  var deadline = new Date("September 28, 2018 22:00:00");
   startTimer("clock", deadline);
 };

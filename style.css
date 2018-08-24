@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Covered+By+Your+Grace);
+/* @import url(https://fonts.googleapis.com/css?family=Covered+By+Your+Grace);
 
 #days {
   font-size: 200px;
@@ -18,7 +18,7 @@
 }
 
 div {
-  display: inline-block;
+  display: block;
   line-height: 1;
   padding: 20px;
   font-size: 40px;
@@ -35,4 +35,4 @@ body {
   font-family: 'Covered By Your Grace', cursive;
   color: white;
   background: #222;
-}
+} */
